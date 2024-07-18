@@ -1,0 +1,20 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .headerHover {
+    @apply flex h-[80%] cursor-pointer items-center border border-transparent px-2 duration-100 hover:border hover:border-white;
+  }
+  .footerLink {
+    @apply cursor-pointer font-titleFont text-sm tracking-wide duration-150 hover:text-gray-100 hover:underline;
+  }
+  /* .footerBottomTitle {
+    @apply group-hover: mb-[2px] w-24 text-[12px] font-semibold uppercase leading-3 text-[#ddd];
+  } */
+  /* .footerBottomText {
+    @apply w-24 text-[12px] leading-3 tracking-tight text-[#999] group-hover:underline;
+  } */
+}
