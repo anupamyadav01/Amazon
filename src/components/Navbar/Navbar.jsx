@@ -1,4 +1,3 @@
-
 import { logo } from "../../assets";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import ArrowDropDownOutlinedIcon from "@mui/icons-material/ArrowDropDownOutlined";
@@ -8,16 +7,17 @@ import { useState } from "react";
 import { allItems } from "../../constants";
 import { Link } from "react-router-dom";
 // import { useNavigate } from "react-router-dom";
-import HeaderBottom from "../Header/HeaderBottom";
-
+import HeaderBottom from "./HeaderBottom";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const [showAll, setShowAll] = useState(false);
-//   const navigate = useNavigate();
-//   const search = async () => {
-//     await call();
-//     navigate("/productdisplay");
-//   };
+  const products = useSelector((state) => state.amazon.products);
+  //   const navigate = useNavigate();
+  //   const search = async () => {
+  //     await call();
+  //     navigate("/productdisplay");
+  //   };
 
   return (
     <div className="sticky top-0 z-50 w-full">
@@ -117,7 +117,7 @@ const Navbar = () => {
             <p className="mt-3 text-xs font-semibold text-whiteText">
               Cart{" "}
               <span className="absolute -top-1 left-6 flex h-4 items-center justify-center rounded-full bg-[#f3a847] p-1 text-xs font-semibold text-amazon_blue">
-                {/* {products.length > 0 ? products.length : 0} */}
+                {products.length > 0 ? products.length : 0}
               </span>
             </p>
           </div>

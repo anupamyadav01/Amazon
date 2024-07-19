@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Products from "../Products/Products";
+import { useDispatch } from "react-redux";
 
 const Home = () => {
   const [products, setProducts] = useState([]);

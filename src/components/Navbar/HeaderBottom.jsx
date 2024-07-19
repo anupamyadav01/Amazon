@@ -50,7 +50,7 @@ const HeaderBottom = () => {
               className="scroll relative h-full w-[80%] overflow-x-hidden overflow-y-scroll border border-black bg-white md:w-[350px]"
             >
               <div className="sticky left-0 top-0 flex w-full items-center gap-4 bg-amazon_light px-6 py-2 text-white">
-                <AccountCircleIcon/>
+                <AccountCircleIcon />
                 <h3 className="tranking font-titleFont text-lg font-bold">
                   Hello, Sign In
                 </h3>

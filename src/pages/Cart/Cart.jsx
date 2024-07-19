@@ -1,10 +1,14 @@
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import { useState } from "react";
+// import { useState } from "react";
+import { useSelector } from "react-redux";
 
 import { Link } from "react-router-dom";
 
 const Cart = () => {
-  const [products, setProducts] = useState([]);
+  const products = useSelector((state) => state.amazon.products);
+  // console.log(products);
+
+  // const [products, setProducts] = useState([]);
   return (
     <div className="w-full bg-gray-100 p-4">
       {products.length !== 0 ? (

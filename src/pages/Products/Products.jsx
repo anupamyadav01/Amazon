@@ -4,8 +4,17 @@ import ApiIcon from "@mui/icons-material/Api";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import { useDispatch } from "react-redux";
+import {
+  addToCart,
+  decrementQuantity,
+  incrementQuantity,
+  deleteItem,
+  resetCart,
+} from "../../redux/slices/amazonSlice";
 
 const Products = ({ productsData }) => {
+  const dispatch = useDispatch();
   return (
     <div className="mx-auto grid max-w-screen-2xl grid-cols-1 gap-10 px-4 py-12 md:grid-cols-2 xl:grid-cols-4 xl:gap-4">
       {productsData.map((item) => (
@@ -75,12 +84,36 @@ const Products = ({ productsData }) => {
             </div>
             <div className="mt-4 flex w-full items-center justify-between">
               <div className="flex items-center gap-2">
-                <button className="w-full rounded-md border border-yellow-500 bg-gradient-to-tr from-yellow-400 to-yellow-200 px-4 py-1.5 font-titleFont text-base font-medium duration-200 hover:border-yellow-700 hover:from-yellow-300 hover:to-yellow-400 active:bg-gradient-to-bl active:from-yellow-400 active:to-yellow-500">
+                <button
+                  className="w-full rounded-md border border-yellow-500 bg-gradient-to-tr from-yellow-400 to-yellow-200 px-4 py-1.5 font-titleFont text-base font-medium duration-200 hover:border-yellow-700 hover:from-yellow-300 hover:to-yellow-400 active:bg-gradient-to-bl active:from-yellow-400 active:to-yellow-500"
+                  onClick={() =>
+                    dispatch(
+                      addToCart({
+                        id: item.id,
+                        title: item.title,
+                        description: item.description,
+                        price: item.price,
+                        category: item.category,
+                        image: item.image,
+                        quantity: 1,
+                      }),
+                    )
+                  }
+                >
                   Add to Cart
                 </button>
               </div>
               <div className="flex items-center gap-2">
-                <button className="h-8 w-8 rounded-md border border-yellow-500 bg-gradient-to-tr from-yellow-400 to-yellow-200 font-titleFont text-base font-medium duration-200 hover:border-yellow-700 hover:from-yellow-300 hover:to-yellow-400 active:bg-gradient-to-bl active:from-yellow-400 active:to-yellow-500">
+                <button
+                  className="h-8 w-8 rounded-md border border-yellow-500 bg-gradient-to-tr from-yellow-400 to-yellow-200 font-titleFont text-base font-medium duration-200 hover:border-yellow-700 hover:from-yellow-300 hover:to-yellow-400 active:bg-gradient-to-bl active:from-yellow-400 active:to-yellow-500"
+                  onClick={() =>
+                    dispatch(
+                      decrementQuantity({
+                        id: item.id,
+                      }),
+                    )
+                  }
+                >
                   -
                 </button>
                 <button className="h-8 w-8 rounded-md border border-yellow-500 bg-gradient-to-tr from-yellow-400 to-yellow-200 font-titleFont text-base font-medium duration-200 hover:border-yellow-700 hover:from-yellow-300 hover:to-yellow-400 active:bg-gradient-to-bl active:from-yellow-400 active:to-yellow-500">
