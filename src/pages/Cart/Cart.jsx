@@ -1,14 +1,15 @@
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-// import { useState } from "react";
-import { useSelector } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-
+import {
+  deleteItem,
+  resetCart,
+  incrementQuantity,
+  decrementQuantity,
+} from "../../redux/slices/amazonSlice";
 const Cart = () => {
   const products = useSelector((state) => state.amazon.products);
-  // console.log(products);
-
-  // const [products, setProducts] = useState([]);
+  const dispatch = useDispatch();
   return (
     <div className="w-full bg-gray-100 p-4">
       {products.length !== 0 ? (
@@ -41,26 +42,28 @@ const Cart = () => {
                         </h2>
                         <p className="text-base">
                           Unit Price:{" "}
-                          <span className="font-semibold">${item.price}</span>
+                          <span className="font-semibold">
+                            ${item.price.toFixed(2)}
+                          </span>
                         </p>
                         <div className="flex w-24 items-center justify-center gap-1 rounded-md bg-[#f0f2f2] py-1 text-center drop-shadow-lg">
                           <p>Qty:</p>
                           <p
-                            // onClick={() => dispatch(decrementQuantity(item.id))}
+                            onClick={() => dispatch(decrementQuantity(item.id))}
                             className="cursor-pointer rounded-md bg-gray-200 px-1 duration-300 hover:bg-gray-400"
                           >
                             -
                           </p>
                           <p>{item.quantity}</p>
                           <p
-                            // onClick={() => dispatch(incrementQuantity(item.id))}
+                            onClick={() => dispatch(incrementQuantity(item.id))}
                             className="cursor-pointer rounded-md bg-gray-200 px-1 duration-300 hover:bg-gray-400"
                           >
                             +
                           </p>
                         </div>
                         <button
-                          // onClick={() => dispatch(deleteItem(item.id))}
+                          onClick={() => dispatch(deleteItem(item.id))}
                           className="mt-2 w-36 rounded-lg bg-red-500 py-1 text-white duration-300 hover:bg-red-700 active:bg-red-900"
                         >
                           Delete Item
@@ -68,7 +71,7 @@ const Cart = () => {
                       </div>
                       <div>
                         <p className="font-titleFont text-lg font-semibold">
-                          ${item.price * item.quantity}
+                          ${(item.price * item.quantity).toFixed(2)}
                         </p>
                       </div>
                     </div>
@@ -78,7 +81,7 @@ const Cart = () => {
             </div>
             <div className="flex justify-center p-5">
               <button
-                // onClick={() => dispatch(resetCart())}
+                onClick={() => dispatch(resetCart())}
                 className="mt-2 w-36 rounded-lg bg-red-600 py-1 text-white duration-300 hover:bg-red-700 active:bg-red-800"
               >
                 {products.length === 0 ? <p>Cart is Empty</p> : "Clear Cart"}

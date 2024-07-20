@@ -38,6 +38,13 @@ export const amazonSlice = createSlice({
         item.quantity -= 1;
       }
     },
+    getQuantity: (state, action) => {
+      const item = state.products.find((item) => item.id === action.payload);
+      return item.quantity;
+    },
+    updateUser: (state, action) => {
+      state.user = action.payload;
+    },
   },
 });
 
@@ -47,5 +54,6 @@ export const {
   deleteItem,
   incrementQuantity,
   decrementQuantity,
+  updateUser,
 } = amazonSlice.actions;
 export default amazonSlice.reducer;

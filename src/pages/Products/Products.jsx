@@ -9,11 +9,10 @@ import {
   addToCart,
   decrementQuantity,
   incrementQuantity,
-  deleteItem,
-  resetCart,
 } from "../../redux/slices/amazonSlice";
 
 const Products = ({ productsData }) => {
+  // const products = useSelector((state) => state.amazon.products);
   const dispatch = useDispatch();
   return (
     <div className="mx-auto grid max-w-screen-2xl grid-cols-1 gap-10 px-4 py-12 md:grid-cols-2 xl:grid-cols-4 xl:gap-4">
@@ -106,20 +105,17 @@ const Products = ({ productsData }) => {
               <div className="flex items-center gap-2">
                 <button
                   className="h-8 w-8 rounded-md border border-yellow-500 bg-gradient-to-tr from-yellow-400 to-yellow-200 font-titleFont text-base font-medium duration-200 hover:border-yellow-700 hover:from-yellow-300 hover:to-yellow-400 active:bg-gradient-to-bl active:from-yellow-400 active:to-yellow-500"
-                  onClick={() =>
-                    dispatch(
-                      decrementQuantity({
-                        id: item.id,
-                      }),
-                    )
-                  }
+                  onClick={() => dispatch(decrementQuantity(item.id))}
                 >
                   -
                 </button>
                 <button className="h-8 w-8 rounded-md border border-yellow-500 bg-gradient-to-tr from-yellow-400 to-yellow-200 font-titleFont text-base font-medium duration-200 hover:border-yellow-700 hover:from-yellow-300 hover:to-yellow-400 active:bg-gradient-to-bl active:from-yellow-400 active:to-yellow-500">
-                  2
+                  0
                 </button>
-                <button className="h-8 w-8 rounded-md border border-yellow-500 bg-gradient-to-tr from-yellow-400 to-yellow-200 font-titleFont text-base font-medium duration-200 hover:border-yellow-700 hover:from-yellow-300 hover:to-yellow-400 active:bg-gradient-to-bl active:from-yellow-400 active:to-yellow-500">
+                <button
+                  className="h-8 w-8 rounded-md border border-yellow-500 bg-gradient-to-tr from-yellow-400 to-yellow-200 font-titleFont text-base font-medium duration-200 hover:border-yellow-700 hover:from-yellow-300 hover:to-yellow-400 active:bg-gradient-to-bl active:from-yellow-400 active:to-yellow-500"
+                  onClick={() => dispatch(incrementQuantity(item.id))}
+                >
                   +
                 </button>
               </div>
