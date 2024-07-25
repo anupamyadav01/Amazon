@@ -13,7 +13,9 @@ const FooterBottom = () => {
                 </h3>
                 <p className="w-24 text-[12px] leading-3 tracking-tight text-[#999] group-hover:underline">
                   {item.des}
-                </p>
+
+            
+                </p>  
               </div>
             );
           })}
