@@ -4,8 +4,10 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import SideNavContent from "./SideNavContent";
+import { useSelector } from "react-redux";
 
 const HeaderBottom = () => {
+  const userInfo = useSelector((state) => state.amazon.user);
   const [sideBar, setSideBar] = useState(false);
   const ref = useRef();
 
@@ -51,9 +53,15 @@ const HeaderBottom = () => {
             >
               <div className="sticky left-0 top-0 flex w-full items-center gap-4 bg-amazon_light px-6 py-2 text-white">
                 <AccountCircleIcon />
-                <h3 className="tranking font-titleFont text-lg font-bold">
-                  Hello, Sign In
-                </h3>
+                {userInfo ? (
+                  <h3 className="tranking font-titleFont text-lg font-bold">
+                    {userInfo.userName}
+                  </h3>
+                ) : (
+                  <h3 className="tranking font-titleFont text-lg font-bold">
+                    Hello, Sign In
+                  </h3>
+                )}
               </div>
               <SideNavContent
                 title="Digital Content & Devices"

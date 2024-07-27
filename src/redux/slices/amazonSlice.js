@@ -42,8 +42,13 @@ export const amazonSlice = createSlice({
       const item = state.products.find((item) => item.id === action.payload);
       return item.quantity;
     },
-    updateUser: (state, action) => {
+    setUserInfo: (state, action) => {
       state.user = action.payload;
+    },
+
+    //  sign out user
+    signOut: (state) => {
+      state.user = null;
     },
   },
 });
@@ -54,6 +59,7 @@ export const {
   deleteItem,
   incrementQuantity,
   decrementQuantity,
-  updateUser,
+  setUserInfo,
+  signOut,
 } = amazonSlice.actions;
 export default amazonSlice.reducer;

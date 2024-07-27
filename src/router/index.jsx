@@ -3,9 +3,9 @@ import Home from "../pages/Home/Home";
 import Footer from "../components/Footer/Footer";
 import Navbar from "../components/Navbar/Navbar";
 import Signin from "../pages/SignIn/SignIn";
-import Register from "../pages/Home/Register/Register";
 import ChatWithAI from "../pages/ChatWithAI/ChatWithAI";
 import Cart from "../pages/Cart/Cart";
+import Register from "../pages/Register/Register";
 const index = () => {
   return (
     <BrowserRouter>

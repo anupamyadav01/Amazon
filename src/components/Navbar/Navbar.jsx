@@ -6,18 +6,17 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useState } from "react";
 import { allItems } from "../../constants";
 import { Link } from "react-router-dom";
-// import { useNavigate } from "react-router-dom";
 import HeaderBottom from "./HeaderBottom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { GoSignOut } from "react-icons/go";
+import { signOut } from "../../redux/slices/amazonSlice";
 
 const Navbar = () => {
   const [showAll, setShowAll] = useState(false);
   const products = useSelector((state) => state.amazon.products);
-  //   const navigate = useNavigate();
-  //   const search = async () => {
-  //     await call();
-  //     navigate("/productdisplay");
-  //   };
+  const userInfo = useSelector((state) => state.amazon.user);
+  const dispatch = useDispatch();
+  // console.log(userInfo);
 
   return (
     <div className="sticky top-0 z-50 w-full">
@@ -53,9 +52,6 @@ const Navbar = () => {
           {showAll && (
             <div>
               <ul className="absolute left-0 top-10 z-50 h-80 w-56 flex-col gap-1 overflow-x-hidden overflow-y-scroll border-[1px] border-amazon_blue bg-white p-2 text-black">
-                {/* <li className="cursor-pointer border-b-[1px] border-b-transparent font-titleFont text-sm tracking-wide duration-200 hover:border-b-amazon_blue">
-                  All Department
-                </li> */}
                 {allItems.map((item) => (
                   <li
                     className="cursor-pointer border-b-[1px] border-b-transparent font-titleFont text-sm tracking-wide duration-200 hover:border-b-amazon_blue"
@@ -68,15 +64,10 @@ const Navbar = () => {
             </div>
           )}
           <input
-            // onChange={(e) => setQuery(e.target.value)}
-            // value={query}
             type="text"
             className="h-full flex-grow border-none px-2 text-base text-amazon_blue outline-none"
           />
-          <span
-            // onClick={search}
-            className="flex h-full w-12 cursor-pointer items-center justify-center rounded-br-md rounded-tr-md bg-amazon_yellow text-amazon_blue duration-300 hover:bg-[#f3a847]"
-          >
+          <span className="flex h-full w-12 cursor-pointer items-center justify-center rounded-br-md rounded-tr-md bg-amazon_yellow text-amazon_blue duration-300 hover:bg-[#f3a847]">
             <SearchIcon />
           </span>
         </div>
@@ -84,9 +75,15 @@ const Navbar = () => {
         {/* signin starts here  */}
         <Link to="/signin">
           <div className="headerHover flex flex-col items-start justify-center">
-            <p className="text-sm font-light text-white mdl:text-xs mdl:text-lightText">
-              Hello, Sign in
-            </p>
+            {userInfo ? (
+              <p className="text-lg font-medium text-white">
+                Hello, {userInfo?.userName}
+              </p>
+            ) : (
+              <p className="text-xs font-light text-lightText">
+                Hello, Sign in
+              </p>
+            )}
             <p className="-mt-1 hidden text-sm font-semibold text-whiteText mdl:inline-flex">
               Account & Lists{" "}
               <span>
@@ -123,6 +120,18 @@ const Navbar = () => {
           </div>
         </Link>
         {/* cart icon ends here */}
+        {/* sign out here */}
+        <div>
+          {userInfo && (
+            <div
+              className="headerHover flex flex-col items-center justify-center"
+              onClick={() => dispatch(signOut())}
+            >
+              <GoSignOut className="text-center text-2xl font-bold text-white" />
+              <p>Sign Out</p>
+            </div>
+          )}
+        </div>
       </div>
       <HeaderBottom />
     </div>

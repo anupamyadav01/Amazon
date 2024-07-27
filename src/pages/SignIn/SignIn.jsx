@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { setUserInfo } from "../../redux/slices/amazonSlice";
 const Signin = () => {
+  const auth = getAuth();
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errEmail, setErrEmail] = useState("");
@@ -28,7 +32,25 @@ const Signin = () => {
       setErrPassword("Enter your password");
     }
     if (email && password) {
-      console.log(email, password);
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          dispatch(
+            setUserInfo({
+              _id: user.uid,
+              userName: user.displayName,
+              email: user.email,
+            }),
+          );
+          // console.log(user);
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(errorCode, errorMessage);
+        });
       setEmail("");
       setPassword("");
     }
