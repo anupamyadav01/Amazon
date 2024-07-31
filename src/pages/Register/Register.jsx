@@ -4,6 +4,7 @@ import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import auth from "../../firebase.cofig";
 import { ThreeDots } from "react-loader-spinner";
+import toast, { Toaster } from "react-hot-toast";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -94,10 +95,14 @@ const Register = () => {
           });
           // Signed in
           const user = userCredential.user;
-          console.log(user);
+          // console.log(user);
 
           setLoading(false);
           setSuccessMsg("Account created successfully");
+          toast.success("Account created successfully", {
+            position: "top-right",
+          });
+
           setTimeout(() => {
             navigate("/signin");
           }, 3000);
@@ -152,9 +157,7 @@ const Register = () => {
                 )}
               </div>
               <div className="flex flex-col gap-2">
-                <p className="text-sm font-medium">
-                  Email or mobile phone number
-                </p>
+                <p className="text-sm font-medium">Email ID</p>
                 <input
                   onChange={handleEmail}
                   value={email}
@@ -284,6 +287,7 @@ const Register = () => {
           © 1996-2023, ReactBd.com, Inc. or its affiliates
         </p>
       </div>
+      <Toaster />
     </div>
   );
 };

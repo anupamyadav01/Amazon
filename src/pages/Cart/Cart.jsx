@@ -8,7 +8,7 @@ import {
   decrementQuantity,
 } from "../../redux/slices/amazonSlice";
 const Cart = () => {
-  const products = useSelector((state) => state.amazon.products);
+  const products = useSelector((state) => state.amazonReducer.products);
   const dispatch = useDispatch();
   return (
     <div className="w-full bg-gray-100 p-4">

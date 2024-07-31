@@ -13,8 +13,8 @@ import { signOut } from "../../redux/slices/amazonSlice";
 
 const Navbar = () => {
   const [showAll, setShowAll] = useState(false);
-  const products = useSelector((state) => state.amazon.products);
-  const userInfo = useSelector((state) => state.amazon.user);
+  const products = useSelector((state) => state.amazonReducer.products);
+  const userInfo = useSelector((state) => state.amazonReducer.user);
   const dispatch = useDispatch();
   // console.log(userInfo);
 

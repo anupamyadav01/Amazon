@@ -7,7 +7,7 @@ import SideNavContent from "./SideNavContent";
 import { useSelector } from "react-redux";
 
 const HeaderBottom = () => {
-  const userInfo = useSelector((state) => state.amazon.user);
+  const userInfo = useSelector((state) => state.amazonReducer.user);
   const [sideBar, setSideBar] = useState(false);
   const ref = useRef();
 
