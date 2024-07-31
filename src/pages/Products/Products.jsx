@@ -91,17 +91,23 @@ const Products = ({ productsData }) => {
                   className="w-full rounded-md border border-yellow-500 bg-gradient-to-tr from-yellow-400 to-yellow-200 px-4 py-1.5 font-titleFont text-base font-medium duration-200 hover:border-yellow-700 hover:from-yellow-300 hover:to-yellow-400 active:bg-gradient-to-bl active:from-yellow-400 active:to-yellow-500"
                   onClick={() => {
                     if (userInfo) {
-                      dispatch(
-                        addToCart({
-                          id: item.id,
-                          title: item.title,
-                          description: item.description,
-                          price: item.price,
-                          category: item.category,
-                          image: item.image,
-                          quantity: 1,
-                        }),
-                      );
+                      toast.success("Item added to cart", {
+                        position: "top-right",
+                        duration: 1000,
+                      });
+                      setTimeout(() => {
+                        dispatch(
+                          addToCart({
+                            id: item.id,
+                            title: item.title,
+                            description: item.description,
+                            price: item.price,
+                            category: item.category,
+                            image: item.image,
+                            quantity: 1,
+                          }),
+                        );
+                      }, 1300);
                     } else {
                       toast.error("Please login first", {
                         position: "top-right",

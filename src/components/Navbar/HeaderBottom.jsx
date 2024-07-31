@@ -55,7 +55,8 @@ const HeaderBottom = () => {
                 <AccountCircleIcon />
                 {userInfo ? (
                   <h3 className="tranking font-titleFont text-lg font-bold">
-                    {userInfo.userName}
+                    {userInfo.userName.charAt(0).toUpperCase() +
+                      userInfo.userName.slice(1)}
                   </h3>
                 ) : (
                   <h3 className="tranking font-titleFont text-lg font-bold">

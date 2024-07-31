@@ -7,88 +7,109 @@ import {
   incrementQuantity,
   decrementQuantity,
 } from "../../redux/slices/amazonSlice";
+import toast, { Toaster } from "react-hot-toast";
 const Cart = () => {
   const products = useSelector((state) => state.amazonReducer.products);
+  const user = useSelector((state) => state.amazonReducer.user);
   const dispatch = useDispatch();
   return (
     <div className="w-full bg-gray-100 p-4">
       {products.length !== 0 ? (
         <div className="container mx-auto grid h-auto grid-cols-5 gap-4">
-          <div className="col-span-4 h-full w-full bg-white px-4">
-            <div className="flex items-center justify-between border-b-[1px] border-b-gray-400 py-3 font-titleFont">
-              <h2 className="text-3xl font-medium">Shopping Cart</h2>
-              <h4 className="text-2xl font-medium">Subtitle</h4>
-            </div>
-            {/* proudcts starts here */}
-            <div>
-              {products.map((item) => {
-                return (
-                  <div
-                    key={item.id}
-                    className="flex w-full items-center gap-6 border-b-[1px] border-b-gray-300 p-4"
-                  >
-                    <div className="flex w-full items-center gap-6">
-                      <div className="w-1/5">
-                        <img
-                          className="h-44 w-full object-contain"
-                          src={item.image}
-                          alt=""
-                        />
-                      </div>
-                      <div className="w-3/5">
-                        <h2 className="text-lg font-semibold">{item.title}</h2>
-                        <h2 className="pr-10 text-sm">
-                          {item.description.substring(0, 200)}....
-                        </h2>
-                        <p className="text-base">
-                          Unit Price:{" "}
-                          <span className="font-semibold">
-                            ${item.price.toFixed(2)}
-                          </span>
-                        </p>
-                        <div className="flex w-24 items-center justify-center gap-1 rounded-md bg-[#f0f2f2] py-1 text-center drop-shadow-lg">
-                          <p>Qty:</p>
-                          <p
-                            onClick={() => dispatch(decrementQuantity(item.id))}
-                            className="cursor-pointer rounded-md bg-gray-200 px-1 duration-300 hover:bg-gray-400"
-                          >
-                            -
+          {user ? (
+            <div className="col-span-4 h-full w-full bg-white px-4">
+              <div className="flex items-center justify-between border-b-[1px] border-b-gray-400 py-3 font-titleFont">
+                <h2 className="text-3xl font-medium">Shopping Cart</h2>
+              </div>
+              {/* proudcts starts here */}
+              <div>
+                {products.map((item) => {
+                  return (
+                    <div
+                      key={item.id}
+                      className="flex w-full items-center gap-6 border-b-[1px] border-b-gray-300 p-4"
+                    >
+                      <div className="flex w-full items-center gap-6">
+                        <div className="w-1/5">
+                          <img
+                            className="h-44 w-full object-contain"
+                            src={item.image}
+                            alt=""
+                          />
+                        </div>
+                        <div className="w-3/5">
+                          <h2 className="text-lg font-semibold">
+                            {item.title}
+                          </h2>
+                          <h2 className="pr-10 text-sm">
+                            {item.description.substring(0, 200)}....
+                          </h2>
+                          <p className="text-base">
+                            Unit Price:{" "}
+                            <span className="font-semibold">
+                              ${item.price.toFixed(2)}
+                            </span>
                           </p>
-                          <p>{item.quantity}</p>
-                          <p
-                            onClick={() => dispatch(incrementQuantity(item.id))}
-                            className="cursor-pointer rounded-md bg-gray-200 px-1 duration-300 hover:bg-gray-400"
+                          <div className="flex w-24 items-center justify-center gap-1 rounded-md bg-[#f0f2f2] py-1 text-center drop-shadow-lg">
+                            <p>Qty:</p>
+                            <p
+                              onClick={() =>
+                                dispatch(decrementQuantity(item.id))
+                              }
+                              className="cursor-pointer rounded-md bg-gray-200 px-1 duration-300 hover:bg-gray-400"
+                            >
+                              -
+                            </p>
+                            <p>{item.quantity}</p>
+                            <p
+                              onClick={() =>
+                                dispatch(incrementQuantity(item.id))
+                              }
+                              className="cursor-pointer rounded-md bg-gray-200 px-1 duration-300 hover:bg-gray-400"
+                            >
+                              +
+                            </p>
+                          </div>
+                          <button
+                            onClick={() => {
+                              toast.success("Item Deleted", {
+                                position: "top-right",
+                              });
+                              dispatch(deleteItem(item.id));
+                            }}
+                            className="mt-2 w-36 rounded-lg bg-red-500 py-1 text-white duration-300 hover:bg-red-700 active:bg-red-900"
                           >
-                            +
+                            Delete Item
+                          </button>
+                        </div>
+                        <div>
+                          <p className="font-titleFont text-lg font-semibold">
+                            ${(item.price * item.quantity).toFixed(2)}
                           </p>
                         </div>
-                        <button
-                          onClick={() => dispatch(deleteItem(item.id))}
-                          className="mt-2 w-36 rounded-lg bg-red-500 py-1 text-white duration-300 hover:bg-red-700 active:bg-red-900"
-                        >
-                          Delete Item
-                        </button>
-                      </div>
-                      <div>
-                        <p className="font-titleFont text-lg font-semibold">
-                          ${(item.price * item.quantity).toFixed(2)}
-                        </p>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
+              <div className="flex justify-center p-5">
+                <button
+                  onClick={() => {
+                    toast.success("Your cart is Empty", {
+                      position: "top-right",
+                    });
+                    dispatch(resetCart());
+                  }}
+                  className="mt-2 w-36 rounded-lg bg-red-600 py-1 text-white duration-300 hover:bg-red-700 active:bg-red-800"
+                >
+                  {products.length === 0 ? <p>Cart is Empty</p> : "Clear Cart"}
+                </button>
+              </div>
             </div>
-            <div className="flex justify-center p-5">
-              <button
-                onClick={() => dispatch(resetCart())}
-                className="mt-2 w-36 rounded-lg bg-red-600 py-1 text-white duration-300 hover:bg-red-700 active:bg-red-800"
-              >
-                {products.length === 0 ? <p>Cart is Empty</p> : "Clear Cart"}
-              </button>
-            </div>
-          </div>
-
+          ) : (
+            <div>Please login to add to cart</div>
+          )}
+          {/* TODO :- if user is not logged in then products should be not visible in cart */}
           <div className="col-span-1 h-full w-full bg-white px-4">
             <div>
               <p className="col-span-1 flex h-full w-full flex-col items-center bg-white p-4">
@@ -137,6 +158,7 @@ const Cart = () => {
           </div>
         </div>
       )}
+      <Toaster />
     </div>
   );
 };
