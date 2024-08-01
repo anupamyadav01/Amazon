@@ -8,10 +8,19 @@ import {
   decrementQuantity,
 } from "../../redux/slices/amazonSlice";
 import toast, { Toaster } from "react-hot-toast";
+
 const Cart = () => {
   const products = useSelector((state) => state.amazonReducer.products);
   const user = useSelector((state) => state.amazonReducer.user);
   const dispatch = useDispatch();
+  console.log(products);
+  const calculateTotalPrice = () => {
+    return products.reduce(
+      (acc, item) => acc + item.product_price.slice(1) * item.quantity,
+      0,
+    );
+  };
+
   return (
     <div className="w-full bg-gray-100 p-4">
       {products.length !== 0 ? (
@@ -21,76 +30,76 @@ const Cart = () => {
               <div className="flex items-center justify-between border-b-[1px] border-b-gray-400 py-3 font-titleFont">
                 <h2 className="text-3xl font-medium">Shopping Cart</h2>
               </div>
-              {/* proudcts starts here */}
+              {/* products start here */}
               <div>
-                {products.map((item) => {
-                  return (
-                    <div
-                      key={item.id}
-                      className="flex w-full items-center gap-6 border-b-[1px] border-b-gray-300 p-4"
-                    >
-                      <div className="flex w-full items-center gap-6">
-                        <div className="w-1/5">
-                          <img
-                            className="h-44 w-full object-contain"
-                            src={item.image}
-                            alt=""
-                          />
-                        </div>
-                        <div className="w-3/5">
-                          <h2 className="text-lg font-semibold">
-                            {item.title}
-                          </h2>
-                          <h2 className="pr-10 text-sm">
-                            {item.description.substring(0, 200)}....
-                          </h2>
-                          <p className="text-base">
-                            Unit Price:{" "}
-                            <span className="font-semibold">
-                              ${item.price.toFixed(2)}
-                            </span>
-                          </p>
-                          <div className="flex w-24 items-center justify-center gap-1 rounded-md bg-[#f0f2f2] py-1 text-center drop-shadow-lg">
-                            <p>Qty:</p>
-                            <p
-                              onClick={() =>
-                                dispatch(decrementQuantity(item.id))
-                              }
-                              className="cursor-pointer rounded-md bg-gray-200 px-1 duration-300 hover:bg-gray-400"
-                            >
-                              -
-                            </p>
-                            <p>{item.quantity}</p>
-                            <p
-                              onClick={() =>
-                                dispatch(incrementQuantity(item.id))
-                              }
-                              className="cursor-pointer rounded-md bg-gray-200 px-1 duration-300 hover:bg-gray-400"
-                            >
-                              +
-                            </p>
-                          </div>
-                          <button
-                            onClick={() => {
-                              toast.success("Item Deleted", {
-                                position: "top-right",
-                              });
-                              dispatch(deleteItem(item.id));
-                            }}
-                            className="mt-2 w-36 rounded-lg bg-red-500 py-1 text-white duration-300 hover:bg-red-700 active:bg-red-900"
+                {products.map((item) => (
+                  <div
+                    key={item.asin}
+                    className="flex w-full items-center gap-6 border-b-[1px] border-b-gray-300 p-4"
+                  >
+                    <div className="flex w-full items-center gap-6">
+                      <div className="w-1/5">
+                        <img
+                          className="h-44 w-full object-contain"
+                          src={item.product_photo}
+                          alt=""
+                        />
+                      </div>
+                      <div className="w-3/5">
+                        <h2 className="text-lg font-semibold">
+                          {item.product_title}
+                        </h2>
+                        <h2 className="pr-10 text-sm">{item.sales_volume}</h2>
+                        <p className="text-base">
+                          Unit Price:{" "}
+                          <span className="font-semibold">
+                            {item.product_price}
+                          </span>
+                        </p>
+                        <div className="flex w-24 items-center justify-center gap-1 rounded-md bg-[#f0f2f2] py-1 text-center drop-shadow-lg">
+                          <p>Qty:</p>
+                          <p
+                            onClick={() =>
+                              dispatch(decrementQuantity(item.asin))
+                            }
+                            className="cursor-pointer rounded-md bg-gray-200 px-1 duration-300 hover:bg-gray-400"
                           >
-                            Delete Item
-                          </button>
-                        </div>
-                        <div>
-                          <p className="font-titleFont text-lg font-semibold">
-                            ${(item.price * item.quantity).toFixed(2)}
+                            -
+                          </p>
+                          <p>{item.quantity}</p>
+                          <p
+                            onClick={() =>
+                              dispatch(incrementQuantity(item.asin))
+                            }
+                            className="cursor-pointer rounded-md bg-gray-200 px-1 duration-300 hover:bg-gray-400"
+                          >
+                            +
                           </p>
                         </div>
+                        <button
+                          onClick={() => {
+                            toast.success("Item Deleted", {
+                              position: "top-right",
+                            });
+                            dispatch(deleteItem(item.asin));
+                          }}
+                          className="mt-2 w-36 rounded-lg bg-red-500 py-1 text-white duration-300 hover:bg-red-700 active:bg-red-900"
+                        >
+                          Delete Item
+                        </button>
+                      </div>
+                      <div>
+                        <p className="font-titleFont text-lg font-semibold">
+                          $
+                          {(
+                            parseFloat(item.product_price.slice(1)) *
+                            item.quantity
+                          ).toFixed(2)}
+                        </p>
                       </div>
                     </div>
-                  );
-                })}
+                  </div>
+                ))}
               </div>
               <div className="flex justify-center p-5">
                 <button
@@ -109,7 +118,6 @@ const Cart = () => {
           ) : (
             <div>Please login to add to cart</div>
           )}
-          {/* TODO :- if user is not logged in then products should be not visible in cart */}
           <div className="col-span-1 h-full w-full bg-white px-4">
             <div>
               <p className="col-span-1 flex h-full w-full flex-col items-center bg-white p-4">
@@ -124,7 +132,7 @@ const Cart = () => {
               <p className="flex items-center justify-center px-10 font-semibold">
                 Total:{" "}
                 <span className="text-lg font-bold">
-                  {/* ${totalPrice.toFixed(2)} */}
+                  ${calculateTotalPrice().toFixed(2)}
                 </span>
               </p>
             </div>

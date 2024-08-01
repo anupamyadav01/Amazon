@@ -10,7 +10,9 @@ export const amazonSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action) => {
-      const item = state.products.find((item) => item.id === action.payload.id);
+      const item = state.products.find(
+        (item) => item.asin === action.payload.asin,
+      );
       // if item is already add in cart then increase only quantity
       if (item) {
         item.quantity += action.payload.quantity;
@@ -20,18 +22,18 @@ export const amazonSlice = createSlice({
     },
     deleteItem: (state, action) => {
       state.products = state.products.filter(
-        (item) => item.id !== action.payload,
+        (item) => item.asin !== action.payload,
       );
     },
     resetCart: (state) => {
       state.products = [];
     },
     incrementQuantity: (state, action) => {
-      const item = state.products.find((item) => item.id === action.payload);
+      const item = state.products.find((item) => item.asin === action.payload);
       item.quantity += 1;
     },
     decrementQuantity: (state, action) => {
-      const item = state.products.find((item) => item.id === action.payload);
+      const item = state.products.find((item) => item.asin === action.payload);
       if (item.quantity === 1) {
         item.quantity = 1;
       } else {
@@ -39,7 +41,7 @@ export const amazonSlice = createSlice({
       }
     },
     getQuantity: (state, action) => {
-      const item = state.products.find((item) => item.id === action.payload);
+      const item = state.products.find((item) => item.asin === action.payload);
       return item.quantity;
     },
     setUserInfo: (state, action) => {

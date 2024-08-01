@@ -14,6 +14,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 const Products = ({ productsData }) => {
+  // TODO when user search for products show only those products
   const navigate = useNavigate();
   const userInfo = useSelector((state) => state.amazonReducer.user);
   const dispatch = useDispatch();

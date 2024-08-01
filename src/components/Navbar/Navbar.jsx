@@ -3,19 +3,30 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import ArrowDropDownOutlinedIcon from "@mui/icons-material/ArrowDropDownOutlined";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import SearchIcon from "@mui/icons-material/Search";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { allItems } from "../../constants";
 import { Link } from "react-router-dom";
 import HeaderBottom from "./HeaderBottom";
 import { useDispatch, useSelector } from "react-redux";
 import { GoSignOut } from "react-icons/go";
 import { signOut } from "../../redux/slices/amazonSlice";
+import { getProductBySearch } from "../../apis";
 
 const Navbar = () => {
   const [showAll, setShowAll] = useState(false);
   const products = useSelector((state) => state.amazonReducer.products);
   const userInfo = useSelector((state) => state.amazonReducer.user);
   const dispatch = useDispatch();
+  const [query, setQuery] = useState("");
+
+  useEffect(() => {
+    const getData = async () => {
+      const result = await getProductBySearch(query);
+      console.log(result);
+    };
+
+    getData();
+  }, [query]);
   // console.log(userInfo);
 
   return (
@@ -66,10 +77,15 @@ const Navbar = () => {
           <input
             type="text"
             className="h-full flex-grow border-none px-2 text-base text-amazon_blue outline-none"
+            placeholder="Search Amazon.in"
+            onChange={(e) => setQuery(e.target.value)}
           />
-          <span className="flex h-full w-12 cursor-pointer items-center justify-center rounded-br-md rounded-tr-md bg-amazon_yellow text-amazon_blue duration-300 hover:bg-[#f3a847]">
+          <Link
+            to={"/search"}
+            className="flex h-full w-12 cursor-pointer items-center justify-center rounded-br-md rounded-tr-md bg-amazon_yellow text-amazon_blue duration-300 hover:bg-[#f3a847]"
+          >
             <SearchIcon />
-          </span>
+          </Link>
         </div>
         {/* search bar ends */}
         {/* signin starts here  */}
